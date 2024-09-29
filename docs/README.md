@@ -1,13 +1,31 @@
-# Sample Hardhat Project
+# Intialize a hardhat project (npm 7+)
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+### Setting up the environment
 
-Try running some of the following tasks:
+```bash
+npm init
+npm --save-dev hardhat
+npx hardhat init (empty TS project)
+```
 
-```shell
-npx hardhat help
+Install necessary plugins
+
+```bash
+npm i --save-dev @nomicfoundation/hardhat-toolbox
+npm i --save-dev @nomicfoundation/hardhat-ethers ethers
+```
+
+Add **hardhat-ethers** in **hardhat.config.ts** to use _ether.js_ in your tests
+
+```ts
+import "@nomicfoundation/hardhat-ethers";
+```
+
+### Compiling and testing
+
+Run this command in the terminal
+
+```bash
+npx hardhat compile
 npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
