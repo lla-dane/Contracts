@@ -2,20 +2,21 @@ import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { Contract, Signer } from "ethers";
 
-async function deployERC20Fixture() {
-  const [owner, addr1, addr2] = await ethers.getSigners();
-  const MyToken = await ethers.getContractFactory("MyToken");
-  const token = await MyToken.deploy("ERC125", "E125", 18);
+describe("ERC20", function () {
+  async function deployERC20Fixture() {
+    const [owner, addr1, addr2] = await ethers.getSigners();
+    const MyToken = await ethers.getContractFactory("MyToken");
+    const token = await MyToken.deploy("ERC125", "E125", 18);
 
-  return { token, owner, addr1, addr2 };
-}
+    return { token, owner, addr1, addr2 };
+  }
 
-describe("ERC20", async function () {
-  const { token, owner, addr1, addr2 } = await loadFixture(deployERC20Fixture);
+  describe("Deployment", async function () {
+    const { token, owner, addr1, addr2 } = await loadFixture(
+      deployERC20Fixture
+    );
 
-  describe("Deployment", function () {
     it("Should return the right Token", async function () {
       expect(await token.name()).to.equal("ERC125");
       expect(await token.decimals()).to.equal(18);
@@ -29,6 +30,10 @@ describe("ERC20", async function () {
 
   describe("Transactions", function () {
     it("Should transfer tokens between acounts", async function () {
+      const { token, owner, addr1, addr2 } = await loadFixture(
+        deployERC20Fixture
+      );
+
       await token
         .connect(owner)
         .transfer(addr1.address, ethers.parseUnits("20", 18));
@@ -37,6 +42,10 @@ describe("ERC20", async function () {
     });
 
     it("Should handle approved transactions", async function () {
+      const { token, owner, addr1, addr2 } = await loadFixture(
+        deployERC20Fixture
+      );
+
       let amount = await ethers.parseUnits("56", 18);
       await token.approve(addr1.address, amount);
       await token
@@ -51,18 +60,26 @@ describe("ERC20", async function () {
 
   describe("Burning and Minting", async function () {
     it("Should burn 72 tokens from the owner' account", async function () {
-      console.log("Owner balance: ", await token.balanceOf(owner.address));
+      const { token, owner, addr1, addr2 } = await loadFixture(
+        deployERC20Fixture
+      );
 
-      await token.burn(owner.address, ethers.parseUnits("18", 18));
+      // console.log("Owner balance: ", await token.balanceOf(owner.address));
+
+      await token.burn(owner.address, ethers.parseUnits("72", 18));
       expect(await token.balanceOf(owner.address)).to.equal(
-        ethers.parseUnits("6", 18)
+        ethers.parseUnits("28", 18)
       );
     });
 
     it("Should mint 43 tokens to the owner' account", async function () {
+      const { token, owner, addr1, addr2 } = await loadFixture(
+        deployERC20Fixture
+      );
+
       await token.mint(owner.address, ethers.parseUnits("43", 18));
       expect(await token.balanceOf(owner.address)).to.equal(
-        ethers.parseUnits("49", 18)
+        ethers.parseUnits("143", 18)
       );
     });
   });
