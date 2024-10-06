@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSE
-pragma solidity ^0.8.26;
+pragma solidity ^0.8.20;
 
 interface IERC20 {
     function totalSupply() external view returns (uint256);
