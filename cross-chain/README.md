@@ -65,6 +65,11 @@ pnpm test:forge
 pnpm test:hardhat
 ```
 
+```bash
+npm run test:hardhat (OR)
+npx hardhat test
+```
+
 Or adjust the `package.json` to for example remove `hardhat` tests:
 
 ```diff
