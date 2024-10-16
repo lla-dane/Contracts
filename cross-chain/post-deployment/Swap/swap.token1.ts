@@ -34,17 +34,17 @@ async function main() {
 
   console.log("GAS NEEDED: ", ethers.utils.formatUnits(nativeFee.toString()));
 
-  // await token1.lzSend(
-  //   FUJI_EID,
-  //   ethers.utils.parseUnits("250", 18),
-  //   signer.address,
-  //   "SWAP",
-  //   options,
-  //   {
-  //     value: nativeFee.toString(),
-  //     gasLimit: ethers.BigNumber.from("3000000"),
-  //   }
-  // );
+  await token1.lzSend(
+    FUJI_EID,
+    ethers.utils.parseUnits("250", 18),
+    signer.address,
+    "SWAP",
+    options,
+    {
+      value: nativeFee.toString(),
+      gasLimit: ethers.BigNumber.from("3000000"),
+    }
+  );
 
   console.log(
     "OWNER BALANCE: ",
