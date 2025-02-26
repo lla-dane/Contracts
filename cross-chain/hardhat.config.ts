@@ -21,9 +21,10 @@ import { EndpointId } from "@layerzerolabs/lz-definitions";
 // If you prefer using a mnemonic, set a MNEMONIC environment variable
 // to a valid mnemonic
 const MNEMONIC = process.env.MNEMONIC;
+const INFURA_API = process.env.INFURA_API_KEY;
 
 // If you prefer to be authenticated using a private key, set a PRIVATE_KEY environment variable
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 
 const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
   ? { mnemonic: MNEMONIC }
@@ -44,7 +45,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: "0.8.22",
+        version: "0.8.20",
         settings: {
           optimizer: {
             enabled: true,
@@ -55,22 +56,29 @@ const config: HardhatUserConfig = {
     ],
   },
   networks: {
-    "sepolia": {
+    sepolia: {
       eid: EndpointId.SEPOLIA_V2_TESTNET,
       url: process.env.RPC_URL_SEPOLIA || "https://rpc.sepolia.org/",
       accounts,
     },
-    "fuji": {
+    fuji: {
       eid: EndpointId.AVALANCHE_V2_TESTNET,
       url: process.env.RPC_URL_FUJI || "https://rpc.ankr.com/avalanche_fuji",
       accounts,
     },
-    "amoy": {
+    amoy: {
       eid: EndpointId.AMOY_V2_TESTNET,
       url:
         process.env.RPC_URL_AMOY ||
         "https://polygon-amoy-bor-rpc.publicnode.com",
       accounts,
+    },
+    holesky: {
+      eid: EndpointId.POLYGONCDK_TESTNET,
+      url: `https://holesky.infura.io/v3/${INFURA_API}`,
+      accounts: [PRIVATE_KEY],
+      gas: 1000000,
+      gasPrice: 130000000000,
     },
   },
   namedAccounts: {

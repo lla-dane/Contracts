@@ -1,13 +1,10 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-import "@nomicfoundation/hardhat-ignition";
-import { ethers } from "hardhat";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 const INFURA_API = process.env.INFURA_API_KEY;
-const ALCHEMY_API = process.env.ALCHEMY_API_KEY;
 const pvt_key = process.env.PRIVATE_KEY || "";
 
 const config: HardhatUserConfig = {
@@ -30,6 +27,12 @@ const config: HardhatUserConfig = {
       accounts: [pvt_key],
       gas: 10000000,
       gasPrice: 130000000000,
+    },
+    holesky: {
+      url: `https://holesky.infura.io/v3/${INFURA_API}`,
+      accounts: [pvt_key],
+      gas: "auto",
+      gasPrice: 1_500_000_000,
     },
   },
 };
